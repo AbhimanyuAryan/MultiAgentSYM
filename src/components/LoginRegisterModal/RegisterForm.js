@@ -19,7 +19,9 @@ class RegisterForm extends Component {
     this.state = {
       name: "",
       email: "",
-      password: ""
+      password: "",
+      error: null,
+      success: null
     };
   }
   handleChange = e => {
@@ -29,29 +31,46 @@ class RegisterForm extends Component {
 
   handleSubmit = () => {
     const { name, email, password } = this.state;
+
+    // Clear previous messages
+    this.setState({ error: null, success: null });
+
     if (!Validator(name, DEFAULT_RULE)) {
-      console.log("Name Error");
+      this.setState({ error: "Please enter your name" });
       return;
     }
     if (!Validator(email, EMAIL_RULE)) {
-      console.log("email Error");
+      this.setState({ error: "Please enter a valid email" });
       return;
     }
     if (!Validator(password, DEFAULT_RULE)) {
-      console.log("Password Error");
+      this.setState({ error: "Please enter a password" });
       return;
     }
+
     this.setState({ loading: true });
     this.props
       .userRegister(name, email, password, password)
       .then(res => {
-        console.log(res);
-        this.props.loginClicked();
-        this.setState({ loading: false });
+        console.log('Registration successful:', res);
+        this.setState({
+          loading: false,
+          success: "Registration successful! You can now login.",
+          error: null
+        });
+        // Switch to login form after 2 seconds
+        setTimeout(() => {
+          this.props.loginClicked();
+        }, 2000);
       })
       .catch(error => {
-        console.log(error.response);
-        this.setState({ loading: false });
+        console.log('Registration error:', error);
+        const errorMessage = error.message || error.response?.data?.message || 'Registration failed. Please try again.';
+        this.setState({
+          loading: false,
+          error: errorMessage,
+          success: null
+        });
       });
   };
 
@@ -101,7 +120,32 @@ class RegisterForm extends Component {
             />
             <i className="fa fa-lock"></i>
           </div>
-          <span className="alert">Invalid Credentials</span>
+          {this.state.error && (
+            <div style={{
+              color: '#ff4757',
+              fontSize: '14px',
+              marginBottom: '15px',
+              padding: '10px',
+              backgroundColor: '#ffe5e5',
+              borderRadius: '5px',
+              textAlign: 'center'
+            }}>
+              {this.state.error}
+            </div>
+          )}
+          {this.state.success && (
+            <div style={{
+              color: '#2ecc71',
+              fontSize: '14px',
+              marginBottom: '15px',
+              padding: '10px',
+              backgroundColor: '#e8f8f5',
+              borderRadius: '5px',
+              textAlign: 'center'
+            }}>
+              {this.state.success}
+            </div>
+          )}
           <LoadingButton
             type="button"
             className="log-btn"

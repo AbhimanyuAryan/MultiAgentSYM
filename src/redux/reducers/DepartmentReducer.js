@@ -12,7 +12,32 @@ import {
 
 const initialState = {
   loading: false,
-  departments: null,
+  departments: [
+    {
+      _id: 1,
+      departmentName: "Men",
+      description: "Men's clothing and accessories",
+      categories: "T-Shirts,Jeans,Jackets,Shirts,Casual Wear"
+    },
+    {
+      _id: 2,
+      departmentName: "Women",
+      description: "Women's clothing and accessories",
+      categories: "Dresses,Tops,Skirts,Sweaters,Casual Wear"
+    },
+    {
+      _id: 3,
+      departmentName: "Shoes",
+      description: "Footwear for all occasions",
+      categories: "Sneakers,Boots,Sandals,Formal Shoes,Athletic"
+    },
+    {
+      _id: 4,
+      departmentName: "Accessories",
+      description: "Fashion accessories and more",
+      categories: "Handbags,Wallets,Jewelry,Belts,Sunglasses"
+    }
+  ],
   error: null
 };
 

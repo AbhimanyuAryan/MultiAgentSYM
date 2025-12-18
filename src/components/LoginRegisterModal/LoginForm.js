@@ -19,7 +19,8 @@ class LoginForm extends Component {
     this.state = {
       email: "",
       password: "",
-      loading: false
+      loading: false,
+      error: null
     };
   }
 
@@ -29,29 +30,35 @@ class LoginForm extends Component {
   };
 
   handleSubmit = () => {
-    // let email = "bob@bob.com";
-    // let password = "Ab123123";
     const { email, password } = this.state;
+
+    // Clear previous error
+    this.setState({ error: null });
+
     if (!Validator(email, EMAIL_RULE)) {
-      console.log("email Error");
+      this.setState({ error: "Please enter a valid email" });
       return;
     }
     if (!Validator(password, DEFAULT_RULE)) {
-      console.log("Password Error");
+      this.setState({ error: "Please enter a password" });
       return;
     }
+
     this.setState({ loading: true });
     this.props
       .userLogin(email, password)
       .then(res => {
-        console.log(res);
-        this.setState({ loading: false });
+        console.log('Login successful:', res);
+        this.setState({ loading: false, error: null });
         window.location.reload();
       })
       .catch(error => {
-        // console.log('loginsignin error')
-        console.log(error.response);
-        this.setState({ loading: false });
+        console.log('Login error:', error);
+        const errorMessage = error.message || error.response?.data?.message || 'Login failed. Please check your credentials.';
+        this.setState({
+          loading: false,
+          error: errorMessage
+        });
       });
   };
 
@@ -86,11 +93,24 @@ class LoginForm extends Component {
             />
             <i className="fa fa-lock"></i>
           </div>
-          <span className="alert">Invalid Credentials</span>
+          {this.state.error && (
+            <div style={{
+              color: '#ff4757',
+              fontSize: '14px',
+              marginBottom: '15px',
+              padding: '10px',
+              backgroundColor: '#ffe5e5',
+              borderRadius: '5px',
+              textAlign: 'center'
+            }}>
+              {this.state.error}
+            </div>
+          )}
           <a
             className="link"
             href="#"
             onClick={this.props.forgotPasswordClicked}
+            style={{ display: 'none' }}
           >
             Lost your password?
           </a>

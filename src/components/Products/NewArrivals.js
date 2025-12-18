@@ -80,7 +80,7 @@ class NewArrivals extends Component {
           </div>
           <div className="row">
             {products &&
-              products.slice(0, 8).map((item, index) => {
+              products.slice(0, 20).map((item, index) => {
                 return (
                   <div
                     className="col-lg-3 col-sm-6"
@@ -95,6 +95,35 @@ class NewArrivals extends Component {
                 );
               })}
           </div>
+          {products && products.length > 20 && (
+            <div className="row" style={{ marginTop: 30 }}>
+              <div className="col text-center">
+                <div style={{
+                  padding: "15px 30px",
+                  background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                  color: "white",
+                  borderRadius: "10px",
+                  display: "inline-block",
+                  fontWeight: "bold",
+                  fontSize: "16px",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                  boxShadow: "0 4px 15px rgba(102, 126, 234, 0.4)"
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-2px)";
+                  e.currentTarget.style.boxShadow = "0 6px 20px rgba(102, 126, 234, 0.6)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.boxShadow = "0 4px 15px rgba(102, 126, 234, 0.4)";
+                }}
+                onClick={() => window.location.href = '/shops/All'}>
+                  View All {products.length} Products 🛍️
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );

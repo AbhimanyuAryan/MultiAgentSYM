@@ -142,39 +142,22 @@ class SingleProduct extends Component {
               <div className="col-lg-7">
                 <div className="single_product_pics">
                   <div className="row">
-                    <div className="col-lg-3 thumbnails_col order-lg-1 order-2">
-                      <div className="single_product_thumbnails">
-                        <ul>
-                          {this.props.variants &&
-                            this.props.variants
-                              .slice(0, 4)
-                              .map((item, index) => (
-                                <li
-                                  key={index}
-                                  onClick={() =>
-                                    this.handleThumbnailClick(item)
-                                  }
-                                >
-                                  <img
-                                    src={item.imagePath}
-                                    alt=""
-                                    className="img-fluid"
-                                  />
-                                </li>
-                              ))}
-                        </ul>
-                      </div>
-                    </div>
-                    <div className="col-lg-9 image_col order-lg-2 order-1">
-                      <div className="single_product_image">
-                        <div
-                          className="single_product_image_background"
-                          style={{
-                            backgroundImage: `url(${
-                              this.state.pic || this.props.product.imagePath
-                            })`,
-                          }}
-                        />
+                    <div className="col-lg-12">
+                      <div className="single_product_image" style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        minHeight: "500px",
+                        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                        borderRadius: "20px",
+                        boxShadow: "0 10px 40px rgba(0,0,0,0.2)"
+                      }}>
+                        <div style={{
+                          fontSize: "250px",
+                          textShadow: "0 10px 30px rgba(0,0,0,0.3)"
+                        }}>
+                          {this.props.product.emoji || this.props.product.imagePath}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -192,13 +175,36 @@ class SingleProduct extends Component {
                     </span>
                     <span>free delivery</span>
                   </div>
-                  <div className="original_price">
-                    {" "}
-                    ₹ {(parseFloat(this.props.product.price) + 30).toFixed(2)}
-                  </div>
-                  <div className="product_price">
+                  <div className="original_price" style={{
+                    fontSize: "20px",
+                    textDecoration: "line-through",
+                    color: "#999",
+                    marginBottom: "10px"
+                  }}>
                     ₹ {this.props.product.price}
                   </div>
+                  <div className="product_price" style={{
+                    fontSize: "32px",
+                    fontWeight: "bold",
+                    color: "#667eea",
+                    marginBottom: "15px"
+                  }}>
+                    ₹ {this.props.product.discounted_price || (this.props.product.price * 0.8).toFixed(2)}
+                  </div>
+                  {this.props.product.discounted_price && (
+                    <div style={{
+                      display: "inline-block",
+                      background: "#ff4757",
+                      color: "white",
+                      padding: "8px 16px",
+                      borderRadius: "20px",
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                      marginBottom: "15px"
+                    }}>
+                      {Math.round(((this.props.product.price - this.props.product.discounted_price) / this.props.product.price) * 100)}% OFF 🎉
+                    </div>
+                  )}
                   <ul className="star_rating">
                     <li>
                       <i className="fa fa-star" aria-hidden="true"></i>

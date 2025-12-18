@@ -26,6 +26,51 @@ class Category extends Component {
     if (!this.props.products) {
       this.props.getAllProducts();
     }
+    this.filterProductsByCategory();
+  }
+
+  componentDidUpdate(prevProps) {
+    // Update products when location changes
+    if (this.props.location.pathname !== prevProps.location.pathname ||
+        this.props.products !== prevProps.products) {
+      this.filterProductsByCategory();
+    }
+  }
+
+  filterProductsByCategory = () => {
+    const category = this.props.location.pathname.split("/")[2];
+    const subcategory = this.props.location.pathname.split("/")[3];
+
+    if (this.props.products) {
+      let filtered = this.props.products;
+
+      // Filter by category if not "All"
+      if (category && category !== "All") {
+        filtered = filtered.filter(product => {
+          // Match by category name (men, women, shoes, accessories)
+          if (product.category && product.category.toLowerCase() === category.toLowerCase()) {
+            return true;
+          }
+          // Also match by department name
+          if (product.department && product.department.toLowerCase() === category.toLowerCase()) {
+            return true;
+          }
+          return false;
+        });
+      }
+
+      // Filter by subcategory if provided
+      if (subcategory) {
+        filtered = filtered.filter(product =>
+          product.title && product.title.toLowerCase().includes(subcategory.toLowerCase())
+        );
+      }
+
+      this.setState({
+        products: filtered,
+        productsBAK: this.props.products
+      });
+    }
   }
   showHideModal = () => {
     this.setState({ modalShow: false });
@@ -159,13 +204,14 @@ class Category extends Component {
                 </div>
 
                 <div className="row">
-                  {products &&
-                    products.slice(0, 8).map((item, index) => {
+                  {products && products.length > 0 ? (
+                    products.map((item, index) => {
                       return (
                         <div
                           className="col-lg-3 col-sm-6"
                           key={index}
                           data-aos="zoom-in"
+                          style={{ marginBottom: "30px" }}
                         >
                           <SingleProduct
                             productItem={item}
@@ -173,7 +219,19 @@ class Category extends Component {
                           />
                         </div>
                       );
-                    })}
+                    })
+                  ) : (
+                    <div className="col-12 text-center" style={{ padding: "50px 0" }}>
+                      <div style={{
+                        fontSize: "48px",
+                        marginBottom: "20px"
+                      }}>
+                        🛍️
+                      </div>
+                      <h3 style={{ color: "#667eea" }}>No products found</h3>
+                      <p style={{ color: "#999" }}>Try adjusting your filters or browse all products</p>
+                    </div>
+                  )}
                 </div>
                 <div class="product_sorting_container product_sorting_container_bottom clearfix">
                   <ul class="product_sorting">

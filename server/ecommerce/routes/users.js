@@ -40,7 +40,7 @@ router.post('/signin', function (req, res, next) {
     email: email
   });
   User.getUserByEmail(email, function (error, user) {
-    if (error) return next(err)
+    if (error) return next(error)
     if (user) {
       let err = new TypedError('signin error', 409, 'invalid_field', {
         message: "user is existed"

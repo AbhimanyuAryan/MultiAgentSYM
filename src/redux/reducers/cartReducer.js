@@ -37,7 +37,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        error: action.payload.error.response.data
+        error: action.payload.error?.response?.data || 'Failed to add to cart'
       };
     case GET_CART_BY_USERID_BEGIN:
       return {
@@ -55,7 +55,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        error: action.payload.error.response.data
+        error: action.payload.error?.response?.data || 'Failed to load cart'
       };
     default:
       return state;

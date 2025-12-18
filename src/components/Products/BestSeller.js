@@ -28,7 +28,7 @@ class BestSeller extends Component {
 
           <div className="row" style={{ marginTop: 50 }}>
             {products &&
-              products.slice(5, 9).map((item, index) => {
+              products.slice(20, 40).map((item, index) => {
                 return (
                   <div
                     className="col-lg-3 col-sm-6"

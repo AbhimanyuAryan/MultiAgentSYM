@@ -7,8 +7,8 @@
 import Auth from "../modules/Auth";
 import jumpTo from "../modules/Navigation";
 import axios from "axios";
-//const URL = "http://192.168.0.19:3000";
-const URL = "http://192.168.43.45:3000";
+// Backend server URL
+const URL = "http://localhost:3001";
 
 const API = (config) => {
   //header authorization

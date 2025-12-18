@@ -41,14 +41,14 @@ export const getProduct = id => dispatch => {
     .then(res => {
       dispatch({
         type: GET_PRODUCT_SUCCESS,
-        payload: res
+        payload: { ...res, productId: id }
       });
       return res;
     })
     .catch(error => {
       dispatch({
         type: GET_PRODUCT_FAIL,
-        payload: { error }
+        payload: { error, productId: id }
       });
       return error;
     });

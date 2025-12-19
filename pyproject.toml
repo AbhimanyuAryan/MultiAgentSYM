@@ -1,0 +1,26 @@
+[project]
+name = "multiagent-ecommerce"
+version = "0.1.0"
+description = "Multi-Agent E-Commerce Platform with AI Agents"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "symbolica-agentica>=0.1.0",
+    "fastapi>=0.109.0",
+    "uvicorn[standard]>=0.27.0",
+    "pymongo>=4.6.1",
+    "redis>=5.0.1",
+    "httpx>=0.26.0",
+    "pydantic>=2.5.0",
+    "pydantic-settings>=2.0.0",
+    "python-dotenv>=1.0.0",
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["config", "core", "tools", "agents", "api"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
